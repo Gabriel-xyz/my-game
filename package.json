@@ -1,0 +1,22 @@
+{
+  "name": "my-game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "nengi": "^2.0.0-alpha.173",
+    "nengi-uws-instance-adapter": "^0.6.0",
+    "nengi-websocket-client-adapter": "^0.7.0",
+    "skale-physics": "github:Gabriel-xyz/SKALE-Physics"
+  }
+}

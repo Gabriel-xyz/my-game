@@ -1,0 +1,1 @@
+// all configs for the server in one easy access place, for example what maps the server should load
