@@ -1,1 +1,0 @@
-// idk about this file but i do need to remind myself that for object creation we will not be using classes but likely factory functions that allow us to composite any amount of behaviours together to create just about anything with maximum flexibility. no inheritance. 

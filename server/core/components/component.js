@@ -1,0 +1,1 @@
+// this is here because i think im going to go the unity route and make gameobject mostly an empty object that is a container for components
