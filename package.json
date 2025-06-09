@@ -17,6 +17,7 @@
     "nengi": "^2.0.0-alpha.173",
     "nengi-uws-instance-adapter": "^0.6.0",
     "nengi-websocket-client-adapter": "^0.7.0",
+    "phaser": "^4.0.0-rc.4",
     "skale-physics": "github:Gabriel-xyz/SKALE-Physics"
   }
 }
