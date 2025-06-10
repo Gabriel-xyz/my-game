@@ -1,2 +1,2 @@
-import { Body, System } from 'skale-physics'
+import { Body, Skale } from 'skale-physics'
 

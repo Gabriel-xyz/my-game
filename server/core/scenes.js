@@ -1,9 +1,9 @@
-import { System } from "skale-physics"
+import { Skale } from "skale-physics"
 export class Scene {
 	objects = []
 	constructor(map) {
 		this.map = map
-		this.physics = new System()
+		this.physics = new Skale()
 	}
 	create(config) {
 

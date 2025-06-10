@@ -9,15 +9,6 @@ export class AllPlayerPositionsMessage {
 export const AllPlayerPositionsMessageSchema = defineSchema({
     array: Binary.UInt16Array
 })
-export class PlayerCountMessage {
-    ntype = NType.PlayerCountMessage
-    constructor(playerCount) {
-        this.playerCount = playerCount
-    }
-}
-export const PlayerCountMessageSchema = defineSchema({
-    playerCount: Binary.UInt8
-})
 // the client will be informed by the server that the server changed their playerobject to another object, so the client can change camera target etc
 export class ChangePlayerObjectMessage {
     ntype = NType.ChangePlayerObjectMessage

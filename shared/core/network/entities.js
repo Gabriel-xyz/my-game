@@ -1,31 +1,5 @@
 import { Binary, defineSchema } from "nengi"
 import { clamp, compressAngle, decompressAngle, depthSyncMult, scaleSyncMult, NType, stringToTextureId, textureIdToString, textureIds } from "../exports.js"
-export class FireDamageAreaEntity {
-	lastUpdate = 0 // do not remove. all entities need a lastUpdate property for the code that checks whether update should be called, elsewhere, even if its not technically needed within the entity itself
-	nid = 0
-	ntype = NType.FireDamageAreaEntity
-	x = 0
-	y = 0
-	fireDamageRadius = 0
-	fireStartedAt = 0
-	constructor(parent) {
-		parent.entity = this
-		this.update(parent)
-	}
-	update(from) {
-		this.x = from.x
-		this.y = from.y
-		this.fireDamageRadius = from.areaDamageRadius // different names because DamageAreas and FireDamageAreas both have the areaDamageRadius property and i want the client to be able to differentiate by the property on the entity that this is a fireDamageArea so it knows to spawn fire fx
-		this.fireStartedAt = from.fireStartedAt
-	}
-}
-export const FireDamageAreaEntitySchema = defineSchema({
-	x: { type: Binary.Float32, interp: false },
-	y: { type: Binary.Float32, interp: false },
-	fireDamageRadius: { type: Binary.UInt16, interp: false },
-	fireStartedAt: { type: Binary.Float64, interp: false }, // warning: nothing other than Float64 will work for a timestamp from Date.now, it is too big (1.6 trillion at this time), Float32 'works' if you want the timestamp to only change like every minute or two since thats its max precision for numbers that large and it doesnt register those small changes. the reason im using Date.now is because nengi uses Date.now to set its server timestamp that is shared between the server and client. annoying. one day i could edit the nengi source or do something else to make it not just use raw Date.now which measures from 1970, but just measure from when the server started. then i could safely use a uint32, but i couldnt use a uint16 since 0 to 65535 is only 108 minutes assuming each +1 represents 1/10th seconds and not miliseconds since im going to divide the timestamp by 100 to make it into 100ms measurements instead of 1ms intervals
-	//1 actually you know what, this method of doing this is probably completely flawed, i dont have to send a property of when the fire started on the entity, the client can deduce it during its createEntities cycle, by checking if the entity is being created near the edge of their view, if it is then dont play the sound because the fire already existed there and you just walked to where it was, otherwise play the sound because the fire appeared deeper in your view which means its probably new fire that was just made on the server
-})
 export class VisualsEntity {
 	lastUpdate = 0
 	nid = 0 // will be assigned by nengi, 0 is placeholder
@@ -91,8 +65,6 @@ export function entityUpdateClient(dt) {
 	if (entity.health !== undefined) this.health = entity.health
 	if (entity.overlays !== undefined) this.overlays = entity.overlays
 }
-//2 the biggest reason it is important to optimize the entities properties to the least amount of bits possible is because entities are constantly being created/destroyed in/out of the player's viewport. if NPCs are constantly walking in and out of the player's viewport their entity is constantly being recreated for every NPC that enters the viewport. recreating the entire entity and all its properties for that client so that it spawns in with all the correct values at once must be the most expensive aspect of having many moving objects in the game constantly moving in/out of the player's view
-//1 this is also why its important to have as few properties on the entities as possible. there's no bigger optimization to the bits contained in a property than to get rid of the property
 export const VisualsEntitySchema = defineSchema({
 	// nid: Binary.UInt32 is already included by nengi (look into using something less than uint32)
 	// ntype: Binary.UInt8 is already included by nengi

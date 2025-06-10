@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import { Channel, ChannelAABB2D, AABB2D, Instance, NetworkEvent } from 'nengi'
 import { uWebSocketsInstanceAdapter } from 'nengi-uws-instance-adapter'
 import { NType, uiActions, context, ChangePlayerObjectMessage, ChatMessage, CreatePlayerObject, game, CreateTestNPCs, CreateTestPickups, CreateTrees, ProcessAbilityCommand, WizardBlastAbility, decompressAngle, PistolAbility, PunchAbility, ProcessDropItemCommand, ServerScene, ShotgunAbility, GrenadeAbility, PlayerCountMessage, AssaultRifleAbility } from '../exports'
@@ -8,7 +7,7 @@ const authenticateUser = async handshake => {
     return new Promise((resolve, reject) => {
         setTimeout(() => { // as if the api took time to respond (nevermind i lowered the delay to 0)
             if (handshake.token === 12345) {
-                // fake example data, which we ignore
+                // fake example data, to remind me this is a thing
                 resolve({ character: 'neuron', level: 24, hp: 89 })
             } else {
                 reject('Connection denied: invalid token.')
@@ -46,11 +45,6 @@ function tryRemoveEntity(entity) {
     }
     this.removeEntity(entity)
 }
-
-CreateTestNPCs()
-CreateTestPickups()
-CreateTrees()
-
 let viewBodies = []
 // exploit warning: the update loop is currently set to process an unlimited amount of commands/etc from a client so the client may be able to send 99999999 commands and freeze the update loop, so eventually the update loop should only process a maximum amount of commands from a user per frame and once exceeded ignore the rest and disconnect that user, prevent them from reconnecting for 10 minutes from the same ip
 export function nengiUpdate(dt, tick, now) {
@@ -64,7 +58,6 @@ export function nengiUpdate(dt, tick, now) {
                 user.view.x = user.playerObject.x
                 user.view.y = user.playerObject.y
             }
-            // let scene = game.scene.getScene(ServerScene.name)
             let opts = scene.physics.world.treeMinMax, dist = 1600
             opts.minX = user.view.x - dist; opts.minY = user.view.y - dist
             opts.maxX = user.view.x + dist; opts.maxY = user.view.y + dist
@@ -109,13 +102,6 @@ export function nengiUpdate(dt, tick, now) {
                 user.playerObject = object
                 object.user = user
                 user.queueMessage(new ChangePlayerObjectMessage(object.entity.nid, object.x, object.y))
-
-                let a1 = new PistolAbility(user.playerObject)
-                let a3 = new PunchAbility(user.playerObject)
-                let a2 = new WizardBlastAbility(user.playerObject)
-                new ShotgunAbility(user.playerObject)
-                new GrenadeAbility(user.playerObject)
-                new AssaultRifleAbility(user.playerObject)
             }
         }
         // commands
