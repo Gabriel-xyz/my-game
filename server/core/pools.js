@@ -6,23 +6,30 @@ export class PoolsManager {
 }
 export class Pool {
 	entries = []
-	actives = new Set() // cant be 'gotten' if its in this set, its in use
+	actives = new Set()
 	constructor(constructorFunction, resetFunction, initialSize = 100) {
 		this.constructorFunction = constructorFunction
 		this.resetFunction = resetFunction
 		this.create(initialSize)
 	}
 	create(amount) {
-
+		for (let i = 0; i < amount; i++) {
+			let o = this.constructorFunction()
+			this.entries.push(o)
+		}
 	}
 	get() {
 		let o = this.entries.pop() ?? this.constructorFunction()
+		this.actives.add(o)
 		return o
 	}
 	set(o) {
-
+		if (this.actives.has(o)) {
+			this.actives.delete(o)
+			this.reset(o)
+		}
 	}
 	reset(o) {
-
+		this.resetFunction.call(o)
 	}
 }
