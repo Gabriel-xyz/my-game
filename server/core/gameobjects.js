@@ -15,4 +15,8 @@ export class GameObject{
 	getComponent(type){
 		return this.components.get(type)
 	}
+	// objects need to be able to be reset for pools
+	reset(){
+		
+	}
 }
