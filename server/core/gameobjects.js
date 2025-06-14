@@ -1,5 +1,18 @@
-// i believe i will go the unity route and make gameobject mostly an empty object that can have components added, removed, and deactivated etc from it. i thought about making factories or constructor functions etc that composite objects together but the problem with that is they cant be uncomposited after creation, they just are what they are after that. but with this i can remove or deactivate an added component at any time. i dont have to actually merge it all together.
-// the downside of that is since we didnt composite the objects together we cant directly access commonly used functions belonging to the "component" like someGameObject.someFunction because someFunction is on the component, so like unity we are going to have to use getComponent on the object before using the component's functions. and unfortunate inconvenience but i can not have merged objects be unmergeable after creation
-// or, perhaps they could be unmergeable after creation if i just use 'delete propertyName' on any property or method on the gameobject matching the name of the component that was merged onto it, by iterating over the properties of the component to find out what those names are and then just delete them from the object. but the problem now compared to unity style is that i can not deactivate the component while keeping its state for when it is activated again
-// or, i could use one of those ECS libraries instead for all of this
-// OR, i could use stampit (https://www.npmjs.com/package/stampit) by this genius guy for extreme composition (look at video https://medium.com/javascript-scene/3-different-kinds-of-prototypal-inheritance-es6-edition-32d777fa16c9)
+export class GameObject{
+	constructor(){
+		this.components = new Map()
+	}
+	addComponent(type){
+		if(this.components.has(type)){
+			console.warn(`component ${type} already exists`)
+			return
+		}
+		this.components.set(type, new type(this))
+	}
+	removeComponent(type){
+		let result = this.components.delete(type)
+	}
+	getComponent(type){
+		return this.components.get(type)
+	}
+}
