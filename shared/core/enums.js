@@ -13,6 +13,7 @@ export const overlayBit = {
 	fire: 0,
 	// the rest dont exist yet. it can go up to 15. 0-15. correlates to the overlays property the visuals entity
 }
+// reminder that for NPC states (or the states of anything) you should not have various flags like i used to do and how many people do, where eventually it gets complicated where you have to have crazy if statements like if(flying && !swimming && !knockedOut && (stunned || sleeping)), you should instead of an enum that just simply has every possible combination of states and have only one flag which is then equal to whatever state the NPC (or whatever) should be in, no matter how many states that is
 export const npcAction = {
 	wander: 0,
 	attackNearestPlayer: 1,

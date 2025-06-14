@@ -19,4 +19,7 @@ export class GameObject{
 	reset(){
 		
 	}
+	setActive(active){
+		
+	}
 }
