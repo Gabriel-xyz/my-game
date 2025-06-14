@@ -3,7 +3,7 @@ export class Manager {
 	constructor() {
 
 	}
-	step(dt, time) {
+	step(dt, time, tick) {
 		// nengi incoming step
 		// game step
 		// physics step
